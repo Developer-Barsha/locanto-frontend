@@ -1,0 +1,54 @@
+.promote-bg {
+    background-image: url('https://static.locanto.info/assets/230116_154411/images/bg/info/promote/background.jpg');
+    background-size: cover;
+    color: white;
+}
+
+.promote-top>div:nth-child(1) a {
+    background-image: url('https://static.locanto.info/images/bg/info/promote/banner.png');
+    background-size: cover;
+    background-position: center;
+    padding: 15px 50px;
+    display: block;
+    border-radius: 8px;
+    width: 100%;
+    margin: 10px 0;
+    color: #5682A5;
+    font-size: 24px;
+}
+
+.promote-top>div:nth-child(1) a:hover{
+    color: #000;
+}
+
+.promote-top>div:nth-child(2) {
+    background-image: url('https://static.locanto.info/assets/230116_154411/images/bg/info/promote/toplaptio.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.targets> div, .bg-glass{
+    background-color: rgba(255, 255, 255, 0.389);
+    padding: 30px;
+}
+
+.bg-glass{
+    text-align: center;
+}
+
+.targets>div>div> .underline{
+    text-decoration-color: #5682A5;
+}
+
+.targets p, .targets ul{
+    color: #5682A5;
+}
+.targets p, .targets ul, .bg-glass p{
+    font-size: 20px;
+}
+
+.targets ul li{
+    list-style: disc;
+    margin-left: 20px;
+}

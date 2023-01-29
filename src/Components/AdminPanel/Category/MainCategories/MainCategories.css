@@ -1,0 +1,8 @@
+.options{
+    display: none;
+}
+
+.menu-cat:hover .options{
+    display: flex;
+    transition: 0.5s;
+}

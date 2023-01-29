@@ -1,0 +1,21 @@
+.bg-container{
+    background-image: url('https://static.locanto.info/assets/230113_160753/images/bg/chp_ahp/3/4.jpg');
+    width:100%;
+    height: 100px;
+}
+
+.list li{
+    list-style-type: decimal;
+}
+
+.privacy .list> li{
+    font-size: 20px;
+}
+
+.privacy li::marker, .privacy ol p>b{
+    font-size: 17px;
+}
+
+.privacy li p, .privacy .list li ul li {
+    font-size: 16px;
+}

@@ -1,0 +1,22 @@
+.list li{
+    list-style-type: decimal;
+}
+.list>li{
+    margin-bottom: 10px;
+}
+.list li p b, .list li{
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.list ul li{
+    list-style-type: disc;
+}
+
+li ul, li ol{
+    padding-left: 20px;
+}
+
+.list li::marker{
+    font-weight: bold;
+}

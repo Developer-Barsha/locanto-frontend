@@ -1,0 +1,21 @@
+.t-shadow{
+    text-shadow: 3px 3px 20px black;
+}
+
+.rounded-box{
+    box-shadow: 2px 1px 10px gray;
+    border-radius: 30px;
+}
+.rounded-box>div:nth-child(1){
+    border-radius: 30px 0 0 30px;
+}
+.rounded-box>div:nth-child(2){
+    border-radius: 0 30px 30px 0;
+}
+
+.best-seller img{
+    position: absolute;
+    top:-30px;
+    left:-30px;
+    width: 100px;
+}

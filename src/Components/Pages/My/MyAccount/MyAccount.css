@@ -1,0 +1,14 @@
+.vip-bg{
+    background-image: url('https://static.locanto.info/assets/230120_141403/images/vip/VIP_invitation_background_P.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.change-avatar{
+    display: none;
+}
+
+.avatar:hover .change-avatar{
+    display: flex;
+    cursor: pointer;
+}

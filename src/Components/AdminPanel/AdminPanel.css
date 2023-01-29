@@ -1,0 +1,17 @@
+.drawer-side ul li:active, .drawer-side ul li:hover, .drawer-side ul li:focus{
+    background-color: #F97316;
+    border-radius: 10px;
+}
+
+.drawer{
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+.drawer::-webkit-scrollbar{
+    display: none;
+}
+
+.drawer::-webkit-scrollbar{
+    display: none;
+}

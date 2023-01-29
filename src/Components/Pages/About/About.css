@@ -1,0 +1,13 @@
+.welcome{
+    /* background-image: url('https://www.yalwa.info/images/fullscreen_background_thumb.jpg'); */
+    background-image: url('https://www.yalwa.info/images/fullscreen_background_thumb.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center left;
+    align-items: center;
+    gap: 40px;
+    padding: 100px;
+}

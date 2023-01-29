@@ -1,0 +1,20 @@
+.p-a-bg {
+    background-image: url('https://static.locanto.info/assets/230116_154411/images/bg/pacp/1000/pabg3.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+th,
+td {
+    padding: 8px 10px;
+}
+
+thead {
+    text-align: center;
+}
