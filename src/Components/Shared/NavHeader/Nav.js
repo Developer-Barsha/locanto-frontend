@@ -4,7 +4,6 @@ import './NavHeader.css'
 
 const Nav = ({user}) => {
     const token = localStorage.getItem('token');
-    // localStorage.setItem('u_id', "63d662e09e70f3209ecf54b8");
 
     const logOut=()=>{
         localStorage.removeItem('token');

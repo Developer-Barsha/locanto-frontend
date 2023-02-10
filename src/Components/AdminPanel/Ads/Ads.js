@@ -17,7 +17,7 @@ const Ads = () => {
                         <img className='w-1/3 rounded-lg h-60' src={ad?.image} alt="" />
                         <div className='w-2/3 flex flex-col gap-2'>
                             <h2 className="text-2xl">{ad?.adTitle}</h2>
-                            <p toolTip={ad?.adDescription}>{ad?.adDescription?.length < 360 ? ad?.adDescription : ad?.adDescription.slice(0, 400) + '...'}</p>
+                            <p toolTip={ad?.adDescription}>{ad?.adDescription?.length < 400 ? ad?.adDescription : ad?.adDescription.slice(0, 400) + '...'}</p>
                             <div className="flex gap-3">
                                 <p> <b>Number:</b> {ad?.adNumber}</p>
                                 <p> <b>Price:</b> {ad?.adPrice}</p>

@@ -14,7 +14,14 @@ const Login = () => {
             body: JSON.stringify(user)
         })
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then(data => {
+                if (data?.token) {
+                    localStorage.setItem('token', data?.token);
+                    localStorage.setItem('u_id', data?.id);
+                }else{
+                    console.log("error in setting token to lcoaStorage");
+                }
+            })
     }
 
 

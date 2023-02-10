@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import diamond from './../../../../images/diamond.svg';
+import Form from './Form/Form';
 import './MyAccount.css';
 
 const MyAccount = () => {
-    const [categories, setCategories] = useState([]);
-    const [mainCategories, setMainCategories] = useState([]);
-    const [subCategories, setSubCategories] = useState([]);
     const [image, setImage] = useState('');
     const [picture, setPicture] = useState('');
     const [user, setUser] = useState({});
@@ -21,18 +20,6 @@ const MyAccount = () => {
     const imgUrl = `https://api.imgbb.com/1/upload?key=${imageStorageKey}`;
 
     useEffect(() => {
-        fetch('http://localhost:5000/main-categories')
-            .then(res => res.json())
-            .then(data => setMainCategories(data));
-
-        fetch('http://localhost:5000/sub-categories')
-            .then(res => res.json())
-            .then(data => setSubCategories(data));
-
-        fetch('http://localhost:5000/categories')
-            .then(res => res.json())
-            .then(data => setCategories(data));
-
         fetch(`http://localhost:5000/users/${u_id}`)
             .then(res => res.json())
             .then(data => setUser(data));
@@ -56,7 +43,7 @@ const MyAccount = () => {
                         headers: {
                             'Content-type': 'application/json'
                         },
-                        body: JSON.stringify({picture})
+                        body: JSON.stringify({ picture })
                     })
                         .then(res => res.json())
                         .then(data => console.log(data))
@@ -67,63 +54,16 @@ const MyAccount = () => {
             });
     }
 
-    const postAd = (e) => {
-        e.preventDefault();
-        const img = image[0];
-        const formData = new FormData();
-        formData.append('image', img);
-
-        fetch(imgUrl, {
-            method: "POST",
-            body: formData
-        })
-            .then(response => response.json())
-            .then(result => {
-                if (result?.success) {
-                    const ad = {
-                        image: result?.data?.url,
-                        subCategory,
-                        mainCategory,
-                        category,
-                        adTitle,
-                        adDescription,
-                        adNumber,
-                        adPrice,
-                        adLocation,
-                        admin: user
-                    };
-
-                    fetch('http://localhost:5000/ads', {
-                        method: 'POST',
-                        headers: {
-                            'Content-type': 'application/json'
-                        },
-                        body: JSON.stringify(ad)
-                    })
-                        .then(res => res.json())
-                        .then(data => console.log(data))
-                    console.log(ad);
-                }
-                else {
-                    console.log('error in adding sub category');
-                }
-            });
-    }
-
-
-
-
     return (
         <section>
             <div className='bg-slate-100 flex gap-5 p-5'>
                 <div className="w-1/3 bg-white grid grid-cols-1 rounded-lg gap-5 pb-5">
-                    <div className='flex gap-5 items-center p-5'>
+                    <div className='flex gap-5 items-center p-5 relative'>
                         <div className="relative w-32 h-32 rounded-full overflow-hidden avatar">
                             <img src={user?.picture !== '' ? user?.picture : 'https://w7.pngwing.com/pngs/754/2/png-transparent-samsung-galaxy-a8-a8-user-login-telephone-avatar-pawn-blue-angle-sphere-thumbnail.png'} className='w-full' alt="" />
 
                             <label htmlFor="my-modal-3" className="btn fa-solid fa-camera absolute top-0 flex items-center justify-center left-0 text-5xl w-32 h-32 bg-[#01010188] change-avatar"></label>
                         </div>
-
 
                         {/* Put this part before </body> tag */}
                         <input type="checkbox" id="my-modal-3" className="modal-toggle" />
@@ -141,7 +81,10 @@ const MyAccount = () => {
                         </div>
 
                         <div>
-                            <h2 className="text-3xl">{user?.name}</h2>
+                            <h2 className="text-3xl">{user?.name}
+                                {user?.userType === 'VIP' && <img src="https://cdn-icons-png.flaticon.com/512/70/70535.png" className='w-10 inline' alt="" />}
+                                {user?.userType === 'Premium' && <img className='w-10 inline' src={diamond} alt="" />}
+                            </h2>
                             <button className='h-uline'>View My Profile</button>
                         </div>
                     </div>
@@ -162,43 +105,12 @@ const MyAccount = () => {
                 <input type="checkbox" id="post-ad-modal" className="modal-toggle" />
                 <div className="modal">
                     <div className="modal-box">
-                        {user.name ? <form onSubmit={postAd} className='flex flex-col gap-5'>
-                            <h1 className="text-4xl">Post an ad</h1>
-
-                            <input onChange={(e) => setAdTitle(e?.target?.value)} className='w-full h-12 input input-bordered' placeholder='Post title' type="text" />
-
-                            <textarea onChange={(e) => setAdDescription(e?.target?.value)} className='w-full input input-bordered resize-none py-2 h-60' rows={30} placeholder='Post description' />
-
-                            <input onChange={(e) => setAdNumber(e?.target?.value)} className='w-full h-12 input input-bordered' placeholder='Number' type="text" />
-
-                            <input onChange={(e) => setAdLocation(e?.target?.value)} className='w-full h-12 input input-bordered' placeholder='Location' type="text" />
-
-                            <input onChange={(e) => setAdPrice(e?.target?.value)} className='w-full h-12 input input-bordered' placeholder='Price' type="text" />
-
-                            <input required onChange={(e) => setImage(e?.target?.files)} accept="image/gif, image/jpeg, image/png" className='h-12 input input-bordered' placeholder='File' name='image' type="file" />
-
-                            <select required onChange={(e) => setMainCategory(e?.target?.value)} className="select select-bordered w-full">
-                                <option disabled selected>Choose Main Category</option>
-                                {mainCategories.map(c => <option> <i className={c?.icon}></i> {c?.title}</option>)}
-                            </select>
-
-                            {mainCategory && <select required onChange={(e) => setSubCategory(e?.target?.value)} className="select select-bordered w-full">
-                                <option disabled selected>Choose Sub Category</option>
-                                {subCategories.map(c => <option> <i className={c?.icon}></i> {c?.title}</option>)}
-                            </select>}
-
-                            {subCategory && <select required onChange={(e) => setCategory(e?.target?.value)} className="select select-bordered w-full">
-                                <option disabled selected>Choose Category</option>
-                                {categories.map(c => <option> <i className={c?.icon}></i> {c?.title}</option>)}
-                            </select>}
-
-                            <div className="modal-action flex justify-between">
-                                <input type='submit' className="btn btn-success" value='Post'></input>
-                                <label htmlFor="post-ad-modal" className="btn btn-error">Cancel</label>
-                            </div>
-                        </form> : 'No user'}
+                        <label htmlFor="post-ad-modal" className="btn btn-sm btn-warning btn-circle absolute top-5 right-5">✕</label>
+                        {user.name ? <Form user={user} /> : 'No user'}
                     </div>
                 </div>
+
+               
 
                 <div className='w-2/3 rounded-lg'>
                     <div className="bg-white p-5 rounded-lg grid grid-cols-2 gap-10">

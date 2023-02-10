@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from '../Shared/NavHeader/Header';
 import topBadge from './../../images/top-badge.png';
+import diamond from './../../images/diamond.svg';
 
 const SubCategoryAds = () => {
     const [ads, setAds] = useState([]);
+    const [sponsoredAds, setSponsoredAds] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('http://localhost:5000/ads')
             .then(res => res.json())
-            .then(data => setAds(data));
+            .then(data => {
+                const filteredAds = data.filter(ad => ad.sponsored !== true);
+                setAds(filteredAds);
+                const sAds = data.filter(ad => ad.sponsored === true);
+                setSponsoredAds(sAds);
+            })
     }, []);
 
     const subCategory = JSON.parse(localStorage.getItem('clickedSubCat'));
@@ -30,17 +38,36 @@ const SubCategoryAds = () => {
                 </div>
                 <div className='w-3/4'>
                     <div className="ads">
-                        {ads?.map(ad => {
-                            return <div className={`flex items-start relative gap-3 p-3 rounded-lg border my-2 ${ad?.adType==='Top' ? 'bg-orange-50 border-orange-300' : 'bg-white'}`}>
-                                <img className='w-1/3 rounded-lg h-40' src={ad?.image} alt="" />
-                                {ad?.adType==='Top' && <img className='w-16 -top-1 -right-1 absolute' src={topBadge} alt="" />}
-                                <div className='w-2/3 flex flex-col gap-2 relative'>
-                                    <h2 className="text-2xl">{ad?.adTitle}</h2>
-                                    <p>{ad?.adDescription?.length < 360 ? ad?.adDescription : ad?.adDescription.slice(0, 360) + '...'}</p>
-                                    <Link to={`/${ad?.category}`} className='bg-sky-100 text-sky-600 rounded-full text-sm w-fit px-2'>{ad?.category}</Link>
-                                    {ad?.adType==='Premium' && <img src="https://cdn-icons-png.flaticon.com/512/70/70535.png" className='absolute w-10 bottom-2 right-2' alt="" />}
-                                    {ad?.adType==='VIP' && <i className='fa-solid fa-medal absolute text-3xl bottom-2 right-2'> </i>}
+                        {sponsoredAds.slice(0,1).map(ad => {
+                            return <div onClick={()=>navigate(`/ad/${ad?._id}`)} className={`cursor-pointer flex items-start text-[#684b93] relative gap-3 p-3 rounded-lg border my-2 bg-[#E8DFF0]`}>
+                                <div className="relative w-1/3">
+                                    <img className='w-full rounded-lg h-40' src={ad?.adImages[0]} alt="" />
                                 </div>
+                                <img className='w-16 -top-1 -right-1 absolute' src={topBadge} alt="" />
+                                <div className='w-2/3 flex flex-col gap-2'>
+                                    <h2 className={`text-2xl font-bold ${ad?.adType === 'Premium' && 'text-[#1C3649]'}`}>{ad?.adTitle}</h2>
+                                    <p>{ad?.adDescription.length < 380 ? ad?.adDescription : ad?.adDescription.slice(0, 380) + '...'}</p>
+                                </div>
+
+                                <div className='absolute bottom-1 right-2 flex gap-2 text-xl font-bold'>SPONSORED | PREMIUM <img src={diamond} className='w-8' alt="" /></div>
+                            </div>
+                        })}
+
+                        {ads?.map(ad => {
+                            return <div onClick={()=>navigate(`/ad/${ad?._id}`)} className={`cursor-pointer flex items-start text-[#684b93] relative gap-3 p-3 rounded-lg border my-2 ${ad?.adType === 'Premium' && 'bg-[#E8DFF0]'}`}>
+                                <div className="relative w-1/3">
+                                    <img className='w-full rounded-lg h-40' src={ad?.adImages[0]} alt="" />
+                                    {ad?.adType === 'Top' && <img src={'https://static.locanto.info/assets/230203_153422/images/bg/icons/sprites/desktop/account_section/sprite_bg.svg#vip_crown'} className='absolute w-10 bottom-2 left-2 bg-white p-1' alt="" />}
+                                </div>
+                                {ad.adType === 'Premium' && <img className='w-16 -top-1 -right-1 absolute' src={topBadge} alt="" />}
+                                {ad.adType === 'Top' && <img className='w-16 -top-1 -right-1 absolute' src={topBadge} alt="" />}
+                                <div className='w-2/3 flex flex-col gap-2'>
+                                    <h2 className={`text-2xl font-bold ${ad?.adType === 'Premium' && 'text-[#1C3649]'}`}>{ad?.adTitle}</h2>
+                                    <p>{ad?.adDescription.length < 380 ? ad?.adDescription : ad?.adDescription.slice(0, 380) + '...'}</p>
+                                </div>
+
+                                {ad?.adType === 'Top' && <img src={'https://static.locanto.info/assets/230203_153422/images/bg/icons/sprites/desktop/account_section/sprite_bg.svg#vip_crown'} className='absolute w-10 bottom-2 right-2' alt="" />}
+                                {ad?.adType === 'Premium' && <img src={diamond} className='absolute w-10 bottom-2 right-2' alt="" />}
                             </div>
                         })}
                     </div>

@@ -30,6 +30,8 @@ import SubCategories from './Components/SubCategories/SubCategories';
 import Category from './Components/AdminPanel/Category/Category/Category';
 import Ads from './Components/AdminPanel/Ads/Ads';
 import MyAds from './Components/Pages/My/MyAds/MyAds';
+import AccountUpgrade from './Components/Pages/Info/AccountUpgrade/AccountUpgrade';
+import SingleAd from './Components/Shared/SingleAd/SingleAd';
 
 function App() {
   const location = useLocation();
@@ -59,9 +61,11 @@ function App() {
         <Route path={`/${clickedMainCat?.title}`} element={<SubCategories clickedMainCat={clickedMainCat} />}></Route>
         <Route path={`${clickedSubCat?.title}`} element={<SubCategoryAds />}></Route>
         <Route path='/info/businesses' element={<RequireAuth><Businesses /></RequireAuth>}></Route>
+        <Route path='/info/account-upgrade' element={<RequireAuth><AccountUpgrade /></RequireAuth>}></Route>
         <Route path='/my-account' element={<RequireAuth><MyAccount/></RequireAuth>}></Route>
         <Route path='/my' element={<RequireAuth><My/></RequireAuth>}></Route>
         <Route path='/my-ads' element={<RequireAuth><MyAds/></RequireAuth>}></Route>
+        <Route path='/ad/:id' element={<SingleAd/>}></Route>
 
         <Route path='/admin-panel' element={<AdminPanel />}>
           <Route path='dashboard' index element={<Dashboard />}></Route>

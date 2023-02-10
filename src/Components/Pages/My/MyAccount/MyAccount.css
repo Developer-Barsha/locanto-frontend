@@ -1,14 +1,69 @@
-.vip-bg{
+.vip-bg {
     background-image: url('https://static.locanto.info/assets/230120_141403/images/vip/VIP_invitation_background_P.jpg');
     background-size: cover;
     background-repeat: no-repeat;
 }
 
-.change-avatar{
+.change-avatar {
     display: none;
 }
 
-.avatar:hover .change-avatar{
+.avatar:hover .change-avatar {
     display: flex;
     cursor: pointer;
+}
+
+/* post ad form */
+.form-container .form-header {
+    flex: 20%;
+    display: grid;
+    place-items: center;
+}
+
+.form-container .form-body {
+    flex: 60%;
+}
+
+.form-container .form-footer {
+    flex: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.form-container .form-footer button, .label-btn{
+    border-radius: 7px;
+    width: 100px;
+    height: 40px;
+    background-color: orange;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 1px;
+    cursor: pointer;
+    padding: 10px;
+    margin: 10px 5px;
+    margin: 5px;
+}
+
+.ad-images input[type="file"]{
+    display: none;
+}
+
+.ad-images label{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progressbar {
+    width: 400px;
+    height: 10px;
+    background-color: white;
+    margin-bottom: 50px;
+}
+
+.progressbar div {
+    width: 33.3%;
+    height: 100%;
+    background-color: orange;
 }

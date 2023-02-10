@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './PremiumAccounts.css';
 
 const PremiumAccounts = () => {
+    const navigate = useNavigate();
     const [advantage, setAdvantage] = useState(
         {
             id: 3,
@@ -136,7 +138,7 @@ const PremiumAccounts = () => {
                             from
                             <h1 className="text-5xl">₹99</h1>
                             per month
-                            <button className="btn bg-blue-700 btn-sm border-none w-fit mx-auto">Upgrade now</button>
+                            <button onClick={() => navigate('/info/account-upgrade')} className="btn bg-blue-700 btn-sm border-none w-fit mx-auto">Upgrade now</button>
                             <button className='absolute -top-20 w-full rounded-none rounded-t-md left-0 right-0 h-20 bg-blue-700 text-white text-3xl font-bold'>Premium</button>
                         </td>
                     </thead>
@@ -158,8 +160,46 @@ const PremiumAccounts = () => {
                         <p>{advantage?.des}</p>
                     </div>
 
-                    <button className="btn btn-lg flex mx-auto text-2xl bg-blue-700 hover:bg-blue-600 border-none"><i className="fa-solid fa-award border-r-2 pr-2 mr-2 border-black"></i> Upgrade now</button>
+                    <button onClick={() => navigate('/info/account-upgrade')} className="btn btn-lg flex mx-auto text-2xl bg-blue-700 hover:bg-blue-600 border-none"><i className="fa-solid fa-award border-r-2 pr-2 mr-2 border-black"></i> Upgrade now</button>
                 </div>
+
+                {/* <div className='p-10 grid lg:grid-cols-2 grid-cols-1 items-end gap-10'> */}
+                <table className="bg-white w-full relative mt-32">
+                    <thead>
+                        <td>All advantages at a glance:</td>
+                        <td className='relative'>
+                            <h1 className="text-3xl">Free</h1>
+                            <button className='absolute -top-20 w-full rounded-none rounded-t-md left-0 right-0 h-20 bg-slate-200 text-slate-400 text-2xl'>Basic</button>
+                        </td>
+                        <td className='flex flex-col relative'>
+                            from
+                            <h1 className="text-5xl">₹99</h1>
+                            per month
+                            <button onClick={() => navigate('/info/account-upgrade')} className="btn bg-blue-700 btn-sm border-none w-fit mx-auto">Upgrade now</button>
+                            <button className='absolute -top-20 w-full rounded-none rounded-t-md left-0 right-0 h-20 bg-orange-400 text-white text-3xl font-bold'>VIP</button>
+                        </td>
+                    </thead>
+                    <tbody>
+                        {advantages.map(a => {
+                            return <tr onMouseOver={() => setAdvantage(a)}>
+                                <td>{a?.title}</td>
+                                <td>{a?.free && <i class="fa-solid fa-check text-green-600 text-2xl"></i>}</td>
+                                <td>{a?.premium && <i class="fa-solid fa-check text-green-600 text-2xl"></i>}</td>
+                            </tr>
+                        })}
+                    </tbody>
+                </table>
+                <div>
+                    <div className='bg-white h-60 flex flex-col p-6 items-center mb-10 border'>
+                        <i className={`${advantage?.icon} rounded-full w-16 h-16 bg-blue-700 flex items-center justify-center text-3xl text-white`} />
+                        <h1 className='text-4xl'>{advantage?.title}</h1>
+                        <div className="divider"></div>
+                        <p>{advantage?.des}</p>
+                    </div>
+
+                    <button onClick={() => navigate('/info/account-upgrade')} className="btn btn-lg flex mx-auto text-2xl bg-blue-700 hover:bg-blue-600 border-none"><i className="fa-solid fa-award border-r-2 pr-2 mr-2 border-black"></i> Upgrade now</button>
+                </div>
+                {/* </div> */}
             </div>
 
             <div className='p-10'>
@@ -195,7 +235,7 @@ const PremiumAccounts = () => {
                 <div className="divider p-0 m-0"></div>
                 <div tabIndex={0} className="collapse collapse-plus bg-base-100">
                     <div className="collapse-title text-xl font-medium">
-                    What is the difference between a Premium Account and a Premium Ad?
+                        What is the difference between a Premium Account and a Premium Ad?
                     </div>
                     <div className="collapse-content">
                         <p>A Premium Account offers you a great range of advantages. For instance, you can respond to comments or see the online status of other users.
