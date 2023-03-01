@@ -1,29 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import diamond from './../../../../images/diamond.svg';
 import Form from './Form/Form';
 import './MyAccount.css';
 
-const MyAccount = () => {
+const MyAccount = ({ user }) => {
     const [image, setImage] = useState('');
     const [picture, setPicture] = useState('');
-    const [user, setUser] = useState({});
-    const [adTitle, setAdTitle] = useState('');
-    const [adDescription, setAdDescription] = useState('');
-    const [adNumber, setAdNumber] = useState('');
-    const [category, setCategory] = useState('');
-    const [adLocation, setAdLocation] = useState('');
-    const [adPrice, setAdPrice] = useState(0);
-    const [subCategory, setSubCategory] = useState('');
-    const [mainCategory, setMainCategory] = useState('');
-    const u_id = localStorage.getItem('u_id');
+    const navigate = useNavigate();
+    // const [adTitle, setAdTitle] = useState('');
+    // const [adDescription, setAdDescription] = useState('');
+    // const [adNumber, setAdNumber] = useState('');
+    // const [category, setCategory] = useState('');
+    // const [adLocation, setAdLocation] = useState('');
+    // const [adPrice, setAdPrice] = useState(0);
+    // const [subCategory, setSubCategory] = useState('');
+    // const [mainCategory, setMainCategory] = useState('');
     const imageStorageKey = `c57edde5c6208c27a5d91c5e10163c0f`;
     const imgUrl = `https://api.imgbb.com/1/upload?key=${imageStorageKey}`;
-
-    useEffect(() => {
-        fetch(`http://localhost:5000/users/${u_id}`)
-            .then(res => res.json())
-            .then(data => setUser(data));
-    }, []);
 
     const updateAvatar = () => {
         const avatar = picture[0];
@@ -90,13 +84,11 @@ const MyAccount = () => {
                     </div>
                     <label htmlFor="post-ad-modal" className='bg-slate-700 text-white pl-10 py-2 flex items-center justify-start gap-5 text-2xl cursor-pointer'><i className="fa-solid fa-plus bg-red-500 text-2xl w-12 h-12 flex items-center justify-center rounded-full"></i>Post an ad</label>
 
-                    <button className='pl-10 flex items-center justify-start gap-5'><i className="fa-solid fa-hashtag bg-black rounded-t-full rounded-l-full text-2xl w-12 h-12 flex items-center justify-center text-white"></i>Dating</button>
+                    <button onClick={() => navigate('/my/my-ads')} className='pl-10 flex items-center justify-start gap-5'><i className="fa-solid fa-pencil text-2xl"></i>Edit Ads</button>
 
-                    <button className=' pl-10 flex items-center justify-start gap-5'><i className="fa-solid fa-pencil text-2xl"></i>Edit Ads</button>
+                    <button onClick={() => navigate('/my/my-favourite-ads')} className=' pl-10 flex items-center justify-start gap-5'><i className="fa-solid fa-star text-2xl"></i>My Favourite Ads</button>
 
-                    <button className=' pl-10 flex items-center justify-start gap-5'><i className="fa-solid fa-star text-2xl"></i>My Favourite Ads</button>
-
-                    <button className=' pl-10 flex items-center justify-start gap-5'><i className="fa-solid fa-wallet text-2xl"></i>My Wallet <span className="text-red-500 text-sm">new</span></button>
+                    <button onClick={() => navigate('/my/my-wallet')} className=' pl-10 flex items-center justify-start gap-5'><i className="fa-solid fa-wallet text-2xl"></i>My Wallet <span className="text-red-500 text-sm">new</span></button>
 
                     <button className=' pl-10 flex items-center justify-start gap-5'><i className="fa-solid fa-person-circle-check text-2xl"></i>My Updates <span className="text-red-500 text-sm">new</span></button>
                 </div>
@@ -106,11 +98,11 @@ const MyAccount = () => {
                 <div className="modal">
                     <div className="modal-box">
                         <label htmlFor="post-ad-modal" className="btn btn-sm btn-warning btn-circle absolute top-5 right-5">✕</label>
-                        {user.name ? <Form user={user} /> : 'No user'}
+                        {user?.name ? <Form user={user} /> : 'No user'}
                     </div>
                 </div>
 
-               
+
 
                 <div className='w-2/3 rounded-lg'>
                     <div className="bg-white p-5 rounded-lg grid grid-cols-2 gap-10">

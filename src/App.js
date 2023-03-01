@@ -1,4 +1,5 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import './App.css';
 import About from './Components/Pages/About/About';
 import Home from './Components/Pages/Home/Home';
@@ -25,6 +26,7 @@ import SubCategoryAds from './Components/SubCategoryAds/SubCategoryAds';
 import Login from './Components/Shared/Account/Login';
 import Register from './Components/Shared/Account/Register';
 import MyAccount from './Components/Pages/My/MyAccount/MyAccount';
+import MyWallet from './Components/Pages/My/MyWallet/MyWallet';
 import My from './Components/Pages/My/My';
 import SubCategories from './Components/SubCategories/SubCategories';
 import Category from './Components/AdminPanel/Category/Category/Category';
@@ -32,18 +34,41 @@ import Ads from './Components/AdminPanel/Ads/Ads';
 import MyAds from './Components/Pages/My/MyAds/MyAds';
 import AccountUpgrade from './Components/Pages/Info/AccountUpgrade/AccountUpgrade';
 import SingleAd from './Components/Shared/SingleAd/SingleAd';
+import Post from './Components/Pages/My/MyAccount/Post/Post';
 
 function App() {
+  const [user, setUser] = useState({});
+  const u_id = localStorage.getItem('u_id');
   const location = useLocation();
   const pathname = location?.pathname;
   const clickedMainCat = JSON.parse(localStorage.getItem('clickedMainCat'));
   const clickedSubCat = JSON.parse(localStorage.getItem('clickedSubCat'));
-  console.log(clickedMainCat?.title);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/users/${u_id}`)
+      .then(res => res.json())
+      .then(data => setUser(data));
+  }, []);
+
+  const [formData, setFormData] = useState({
+    adTitle: "",
+    adDescription: "",
+    adImages: [],
+    mainCategory: "",
+    subCategory: "",
+    category: "",
+    adType: "",
+    adNumber: "",
+    adPrice: "",
+    adLocation: "",
+    admin: user.user,
+  });
 
   return (
     <div className="App">
       {!pathname.includes('/admin-panel') && <Nav />}
-      
+
+      {/* <MemoryRouter> */}
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='/about' element={<About />}></Route>
@@ -62,10 +87,11 @@ function App() {
         <Route path={`${clickedSubCat?.title}`} element={<SubCategoryAds />}></Route>
         <Route path='/info/businesses' element={<RequireAuth><Businesses /></RequireAuth>}></Route>
         <Route path='/info/account-upgrade' element={<RequireAuth><AccountUpgrade /></RequireAuth>}></Route>
-        <Route path='/my-account' element={<RequireAuth><MyAccount/></RequireAuth>}></Route>
-        <Route path='/my' element={<RequireAuth><My/></RequireAuth>}></Route>
-        <Route path='/my-ads' element={<RequireAuth><MyAds/></RequireAuth>}></Route>
-        <Route path='/ad/:id' element={<SingleAd/>}></Route>
+        <Route path='/my-account' element={<RequireAuth><MyAccount /></RequireAuth>}></Route>
+        {/* <Route path='/my' element={<RequireAuth><My /></RequireAuth>}></Route> */}
+        <Route path='/my-ads' element={<RequireAuth><MyAds /></RequireAuth>}></Route>
+        <Route path='/ad/:id' element={<SingleAd />}></Route>
+        <Route path='/post' element={<Post formData={formData} setFormData={setFormData} />}></Route>
 
         <Route path='/admin-panel' element={<AdminPanel />}>
           <Route path='dashboard' index element={<Dashboard />}></Route>
@@ -76,7 +102,15 @@ function App() {
           <Route path='all-users' element={<AllUsers />}></Route>
           <Route path='add-new-user' element={<AddNewUser />}></Route>
         </Route>
+
+        <Route path="/my" element={<My />}>
+          <Route index element={<Navigate to="my-account" />} />
+          <Route path="my-account" element={<MyAccount />} />
+          <Route path="my-ads" element={<MyAds />} />
+          <Route path="my-wallet" element={<MyWallet />} />
+        </Route>
       </Routes>
+      {/* </MemoryRouter> */}
 
       {!pathname.includes('/admin-panel') && <Footer />}
     </div>

@@ -21,14 +21,6 @@ function BasicInfo({ formData, setFormData }) {
 
   return (
     <div className="sign-up-container">
-      <input
-        type="text"
-        className='w-full h-12 input input-bordered my-2' placeholder='Ad title'
-        value={formData.adTitle}
-        onChange={(event) =>
-          setFormData({ ...formData, adTitle: event.target.value })
-        }
-      />
       <textarea
         type="text"
         className='w-full h-40 py-2 input input-bordered my-2' placeholder='Ad Description'

@@ -41,12 +41,12 @@ const SubCategoryAds = () => {
                         {sponsoredAds.slice(0,1).map(ad => {
                             return <div onClick={()=>navigate(`/ad/${ad?._id}`)} className={`cursor-pointer flex items-start text-[#684b93] relative gap-3 p-3 rounded-lg border my-2 bg-[#E8DFF0]`}>
                                 <div className="relative w-1/3">
-                                    <img className='w-full rounded-lg h-40' src={ad?.adImages[0]} alt="" />
+                                    <img className='w-full rounded-lg h-40' src={ad?.adImages.length>0 ? ad?.adImages[0] : ''} alt="" />
                                 </div>
                                 <img className='w-16 -top-1 -right-1 absolute' src={topBadge} alt="" />
                                 <div className='w-2/3 flex flex-col gap-2'>
                                     <h2 className={`text-2xl font-bold ${ad?.adType === 'Premium' && 'text-[#1C3649]'}`}>{ad?.adTitle}</h2>
-                                    <p>{ad?.adDescription.length < 380 ? ad?.adDescription : ad?.adDescription.slice(0, 380) + '...'}</p>
+                                    <p>{ad?.adDescription?.length < 360 ? ad?.adDescription : ad?.adDescription?.slice(0, 360) + '...'}</p>
                                 </div>
 
                                 <div className='absolute bottom-1 right-2 flex gap-2 text-xl font-bold'>SPONSORED | PREMIUM <img src={diamond} className='w-8' alt="" /></div>
@@ -56,14 +56,14 @@ const SubCategoryAds = () => {
                         {ads?.map(ad => {
                             return <div onClick={()=>navigate(`/ad/${ad?._id}`)} className={`cursor-pointer flex items-start text-[#684b93] relative gap-3 p-3 rounded-lg border my-2 ${ad?.adType === 'Premium' && 'bg-[#E8DFF0]'}`}>
                                 <div className="relative w-1/3">
-                                    <img className='w-full rounded-lg h-40' src={ad?.adImages[0]} alt="" />
+                                    <img className='w-full rounded-lg h-40' src={ad?.adImages.length>0 ? ad?.adImages[0] : ''} alt="" />
                                     {ad?.adType === 'Top' && <img src={'https://static.locanto.info/assets/230203_153422/images/bg/icons/sprites/desktop/account_section/sprite_bg.svg#vip_crown'} className='absolute w-10 bottom-2 left-2 bg-white p-1' alt="" />}
                                 </div>
                                 {ad.adType === 'Premium' && <img className='w-16 -top-1 -right-1 absolute' src={topBadge} alt="" />}
                                 {ad.adType === 'Top' && <img className='w-16 -top-1 -right-1 absolute' src={topBadge} alt="" />}
                                 <div className='w-2/3 flex flex-col gap-2'>
                                     <h2 className={`text-2xl font-bold ${ad?.adType === 'Premium' && 'text-[#1C3649]'}`}>{ad?.adTitle}</h2>
-                                    <p>{ad?.adDescription.length < 380 ? ad?.adDescription : ad?.adDescription.slice(0, 380) + '...'}</p>
+                                    <p>{ad?.adDescription?.length < 360 ? ad?.adDescription : ad?.adDescription?.slice(0, 360) + '...'}</p>
                                 </div>
 
                                 {ad?.adType === 'Top' && <img src={'https://static.locanto.info/assets/230203_153422/images/bg/icons/sprites/desktop/account_section/sprite_bg.svg#vip_crown'} className='absolute w-10 bottom-2 right-2' alt="" />}

@@ -5,6 +5,7 @@ import diamond from './../../../images/diamond.svg';
 import './Home.css';
 import ad1 from './1.png';
 import Header from '../../Shared/NavHeader/Header';
+import useCall from '../../Shared/useCall';
 
 const Home = () => {
     const [galleryAds, setGalleryAds] = useState([]);
@@ -12,7 +13,10 @@ const Home = () => {
     const [vipUsers, setVipUsers] = useState([]);
     const [users, setUsers] = useState([]);
     const [otherAds, setOtherAds] = useState([]);
-    const navigate= useNavigate();
+    const { data: mainCateogries } = useCall('main-categories');
+    const navigate = useNavigate();
+
+    console.log(mainCateogries, 'mainCateogries')
 
     useEffect(() => {
         fetch('http://localhost:5000/vip-users')
@@ -51,7 +55,6 @@ const Home = () => {
     let randomElements = getRandomElementsFromArray(users, 5);
     let randomGalleryAds = getRandomElementsFromArray(galleryAds, 5);
     let randomSponsoredAd = getRandomElementsFromArray(sponsoredAds, 1);
-    console.log(randomGalleryAds, randomSponsoredAd);
 
     return (
         <section className='bg-white'>
@@ -74,14 +77,17 @@ const Home = () => {
                     </div>
                 })}
             </div>
-            <div className="flex">
-                <div className="w-1/5 flex items-center flex-col gap-5">
-                    {galleryAds.slice(0, 4).map(gd => {
-                        return <div>
-                            <img src={gd?.adImages[0]} className='w-60 h-60 rounded-lg' alt="" />
-                            <h3 className="text-xl mt-2">{gd?.adTitle}</h3>
-                        </div>
-                    })}
+            <div className="flex pl-3">
+                <div className="w-1/5 flex items-start p-5 h-fit flex-col gap-5 bg-slate-100 rounded-lg">
+                    <button className='w-full bg-orange-400 text-xl p-4'>Adjust your search</button>
+                    <h3 className="text-xl">REFINE CATEGORY</h3>
+                    <ul>
+                        {mainCateogries?.map(c => {
+                            return <li className='py-2 hover:text-blue-800 cursor-pointer'>{c?.title}</li>
+                        })}
+                    </ul>
+                    <h3 className="text-xl">ABOUT EVENTS INDIA</h3>
+                    What’s going on in your city India? Do you know of the best parties, concerts, shows, and other events? Browse through Events India on Locanto to stay up to date about everything that is going on in your area! Events India has all the Events that you are looking for to have a great day or night out in town!
                 </div>
                 <div className="px-8 pb-8 w-3/5 m-auto flex flex-col gap-8">
                     <button className="btn relative w-full flex m-auto border-none hover:bg-orange-400 rounded-full bg-orange-500">Want Your Ad Here?
@@ -89,7 +95,7 @@ const Home = () => {
                     </button>
 
                     <div className="ads">
-                        {sponsoredAds?.length > 0 && <div  onClick={()=>navigate(`/ad/${randomSponsoredAd[0]?._id}`)}className={`cursor-pointer flex items-start text-[#684b93] relative gap-3 p-3 rounded-lg border my-2 bg-[#E8DFF0]`}>
+                        {sponsoredAds?.length > 0 && <div onClick={() => navigate(`/ad/${randomSponsoredAd[0]?._id}`)} className={`cursor-pointer flex items-start text-[#684b93] relative gap-3 p-3 rounded-lg border my-2 bg-[#E8DFF0]`}>
                             <div className="relative w-1/3">
                                 <img className='w-full rounded-lg h-40' src={randomSponsoredAd[0].adImages[0]} alt="" />
                             </div>
@@ -104,7 +110,7 @@ const Home = () => {
                         }
 
                         {otherAds?.length > 0 && otherAds.slice(0, 6).map(ad => {
-                            return <div onClick={()=>navigate(`/ad/${ad?._id}`)} className={`cursor-pointer flex items-start text-[#684b93] relative gap-3 p-3 rounded-lg border my-2 ${ad?.adType === 'Premium' && 'bg-[#E8DFF0]'}`}>
+                            return <div onClick={() => navigate(`/ad/${ad?._id}`)} className={`cursor-pointer flex items-start text-[#684b93] relative gap-3 p-3 rounded-lg border my-2 ${ad?.adType === 'Premium' && 'bg-[#E8DFF0]'}`}>
                                 <div className="relative w-1/3">
                                     <img className='w-full rounded-lg h-40' src={ad?.adImages[0]} alt="" />
                                     {ad?.adType === 'Top' && <img src={'https://static.locanto.info/assets/230203_153422/images/bg/icons/sprites/desktop/account_section/sprite_bg.svg#vip_crown'} className='absolute w-10 bottom-2 left-2 bg-white p-1' alt="" />}
@@ -153,7 +159,7 @@ const Home = () => {
                     </div>
                     <div className="grid grid-cols-1 gap-2">
                         {randomGalleryAds?.length > 4 && randomGalleryAds.map(gd => {
-                            return <div>
+                            return <div className='cursor-pointer' onClick={() => navigate(`/ad/${gd?._id}`)}>
                                 {gd?.adImages.length === 1 && <div className="flex justify-center">
                                     <img src={gd?.adImages[0]} className='w-20 h-20 rounded-lg border border-orange-300' alt="" />
                                 </div>}

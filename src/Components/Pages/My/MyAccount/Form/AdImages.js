@@ -1,6 +1,55 @@
 import React, { useState } from "react";
 
-function AdImages({ formData, setFormData, image1, image2, image3, image4, image5, image6, image7, setImage1, setImage2, setImage3, setImage4, setImage5, setImage6, setImage7 }) {
+function AdImages({ formData, setFormData }) {
+  const [image1, setImage1] = useState();
+  const [image2, setImage2] = useState();
+  const [image3, setImage3] = useState();
+  const [image4, setImage4] = useState();
+  const [image5, setImage5] = useState();
+  const [image6, setImage6] = useState();
+  const [image7, setImage7] = useState();
+  const images = [image1, image2, image3, image4, image5, image6, image7];
+  const imageStorageKey = `c57edde5c6208c27a5d91c5e10163c0f`;
+  const imgUrl = `https://api.imgbb.com/1/upload?key=${imageStorageKey}`;
+
+  const uploadImages = () => {
+    const allImages = [];
+    images.map(i => {
+      if (i !== undefined) {
+        allImages.push(i)
+      }
+      else {
+        console.log('i m undefined')
+      }
+    })
+
+    if (allImages.length !== 0) {
+      allImages.map(i => {
+        try {
+          const img = i[0];
+          const imgFormData = new FormData();
+          imgFormData.append('image', img);
+
+          fetch(imgUrl, {
+            method: "POST",
+            body: imgFormData
+          })
+            .then(response => response.json())
+            .then(result => {
+              setFormData({ ...formData, adImages: [...formData?.adImages, result?.data?.url] })
+              console.log(result.data.url);
+            });
+        }
+
+        catch (err) {
+          console.log(err?.message);
+        }
+      })
+    }
+    else {
+      return window.alert('Please upload at least one image')
+    }
+  }
 
   return (
     <div className="ad-images relative">
@@ -83,7 +132,7 @@ function AdImages({ formData, setFormData, image1, image2, image3, image4, image
         </div>
       </div>
 
-      <input type="submit" className={`absolute label-btn right-10`} value='Submit' />
+      <button onClick={uploadImages} className='btn btn-warning rounded-none'>Upload Images</button>
     </div>
   );
 }

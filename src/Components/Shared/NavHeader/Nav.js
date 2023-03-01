@@ -27,13 +27,13 @@ const Nav = ({user}) => {
                 <div className="dropdown dropdown-end">
                     <label tabIndex={0} className="cursor-pointer m-1">My Locanto <i className="fa-solid fa-angle-down"></i></label>
                     <ul tabIndex={0} className="dropdown-content p-2 shadow bg-base-100 w-fit">
-                        <li selected><Link to='/my-account'>My Locanto</Link></li>
-                        <li><Link to='/my-ads'>My ads</Link></li>
-                        <li><Link to='/messages'>Messages</Link></li>
-                        <li><Link to='/Alerts'>Alerts</Link></li>
-                        <li><Link to='/Purchases'>Purchases</Link></li>
-                        <li><Link to='/Profile'>Profile</Link></li>
-                        <li><Link to='/My Wallet'>My Wallet</Link></li>
+                        <li selected><Link to='/my/my-account'>My Locanto</Link></li>
+                        <li><Link to='/my/my-ads'>My ads</Link></li>
+                        <li><Link to='/my/inbox'>Messages</Link></li>
+                        <li><Link to='/my/alerts'>Alerts</Link></li>
+                        <li><Link to='/my/purchases'>Purchases</Link></li>
+                        <li><Link to='/my/my-profile'>Profile</Link></li>
+                        <li><Link to='/my/my-wallet'>My Wallet</Link></li>
                         <li><button>Log out</button></li>
                     </ul>
                 </div>

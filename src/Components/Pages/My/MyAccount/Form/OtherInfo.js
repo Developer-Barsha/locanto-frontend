@@ -21,6 +21,7 @@ function OtherInfo({ formData, setFormData }) {
       /> */}
 
       <input
+      required
         onChange={(e) => {
           setFormData({ ...formData, adNumber: e.target.value });
         }}
@@ -28,6 +29,7 @@ function OtherInfo({ formData, setFormData }) {
         placeholder='Number' type="text" />
 
       <input
+      required
         onChange={(e) => {
           setFormData({ ...formData, adLocation: e.target.value });
         }}
@@ -35,6 +37,7 @@ function OtherInfo({ formData, setFormData }) {
         placeholder='Location' type="text" />
 
       <input
+      required
         onChange={(e) => {
           setFormData({ ...formData, adPrice: e.target.value });
         }}

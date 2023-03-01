@@ -23,60 +23,16 @@ const SingleAd = () => {
                 setOtherAds(filteredAds);
             })
     }, []);
+
     const tips = [
-        {
-            id: 0,
-            img: 'https://static.locanto.info/assets/230113_160753/images/info/safer-trading/1.png',
-            title: 'General',
-            tips: [
-                "The more questions you ask the advertiser, the more you know.",
-                "Use your best judgment: if it seems too good to be true, it most likely is.",
-                "Protect your personal details and initiate communication using our contact form.",
-                "Unless the link leads directly to in.locan.to, don’t trust it."
-            ],
-            color: 'blue-700'
-        },
-        {
-            id: 1,
-            img: 'https://static.locanto.info/assets/230113_160753/images/info/safer-trading/2.png',
-            title: 'Communication',
-            tips: [
-                "Locanto employees will never approach you and ask for your credit card or bank details.",
-                "Be wary of users who have a poor grasp of English; most scams originate overseas.",
-                "Protect your personal details and initiate communication using our contact form.",
-                "Users with usernames containing ‘Locanto’ or a variation thereof are not official Locanto employees. The only way to reach an official Locanto employee is through our contact form.",
-                "Avoid communicating via email; use the Locanto messaging centre.",
-                "Be extremely careful with sellers who do not want to use the messaging centre, or meet in person.",
-                "Report any ads and messages you find suspicious."
-            ],
-            color: 'orange-400',
-            reverse: true
-        },
-        {
-            id: 2,
-            img: 'https://static.locanto.info/assets/230113_160753/images/info/safer-trading/3.png',
-            title: 'Payment',
-            tips: [
-                "If you opt for direct shipping, please do so via registered mail.",
-                "Be careful before paying in advance using gift cards, bank transfers or sign-ups asking for credit cards. ",
-                "The best way to pay is Cash On Delivery.",
-                "Do not pay using Western Union or other similar untraceable payment options.",
-                "When meeting up with a seller, avoid carrying more cash than necessary."
-            ],
-            color: 'orange-700'
-        },
-        {
-            id: 3,
-            img: 'https://static.locanto.info/assets/230113_160753/images/info/safer-trading/4.png',
-            title: 'Ads on the site',
-            tips: [
-                "Report ads and messages that you think are suspicious.",
-                "Be wary of users who have a poor grasp of English; most scams originate overseas.",
-                "Use your judgment: if it seems too good to be true, it most likely is."
-            ],
-            color: 'teal-300',
-            reverse: true
-        },
+        "Locanto employees will never approach and ask you for credit card or bank details.",
+        "Be wary of users who have a poor grasp of English; most scams originate overseas.",
+        "Protect your personal details and initiate communication using our contact form.",
+        "Usernames containing ‘Locanto’ or a variation thereof are not official Locanto employees.", 
+        "The only way to reach an official Locanto employee is through our contact form.",
+        "Avoid communicating via email; use the Locanto messaging centre.",
+        "Do not want to use the messaging centre, or meet in person.",
+        "When meeting up with a seller, avoid carrying more cash than necessary."
     ]
 
     const getRandomElementsFromArray = (arr, numberOfElements) => {
@@ -119,6 +75,11 @@ const SingleAd = () => {
                         <i class="fa-brands fa-pinterest-p bg-slate-800 text-white hover:bg-red-600 cursor-pointer p-2 text-2xl w-12 h-12 flex justify-center items-center"></i>
                     </div>
                 </div>
+
+                <div className="divider">
+                    <button onClick={() => navigate(`/ad/${randomAds[0]?._id}`)}>Next Ad <i className="fa-solid fa-arrow-right"></i> </button>
+                </div>
+
                 <div className="border p-2 flex flex-col gap-3">
                     <p className="font-bold text-2xl">You might also be interested in the following Locanto ads</p>
                     {randomAds?.map(ad => {
@@ -175,9 +136,23 @@ const SingleAd = () => {
                         <button className='btn bg-yellow-500 hover:bg-yellow-600 border-none rounded-lg'> Send</button>
                     </div>
 
-                    <div className="flex flex-col gap-2 p-2 m-2 bg-slate-100">
+                    <div className="flex flex-col gap-2 p-2 m-2 bg-slate-100 max-h-60">
                         <h2 className="w-full p-3 text-2xl bg-slate-200"><i class="fa-solid fa-shield text-green-500"></i> Safety Tips </h2>
-                        {tips[0]?.tips}
+                        <div className="carousel w-full">
+                            {tips.map(tip => {
+                                return <div className='carousel-item relative w-full flex flex-col gap-5 h-fit'>
+                                    <div id={`slide-${tips.indexOf(tip)}`}>
+                                        <div className="w-4/6 flex mx-auto"><p>{tip}</p></div>
+                                        <div className="absolute flex text-5xl justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                                            <a href={`#slide-${(tips.indexOf(tip) - 1)}`} className={`hover:text-slate-200 text-5xl`}>❮</a>
+
+                                            <a href={`#slide-${(tips.indexOf(tip) + 1)}`} className={`hover:text-slate-200 text-5xl`}>❯</a>
+                                        </div>
+                                    </div>
+                                    <p className='w-4/6 flex mx-auto text-slate-400 font-bold'>{(tips.indexOf(tip) + 1)} / {(tips.length)}</p>
+                                </div>
+                            })}
+                        </div>
                     </div>
 
                     <div className="flex flex-col gap-2 p-2 m-2 bg-slate-100">

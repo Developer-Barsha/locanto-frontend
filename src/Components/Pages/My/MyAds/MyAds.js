@@ -17,6 +17,19 @@ const MyAds = () => {
     const u_id = localStorage.getItem('u_id');
     const [clickedTime, setClickedTime] = useState({ value: '1 week', index: 0 });
     const [price, setPrice] = useState(0);
+    const [formData, setFormData] = useState({
+      adTitle: "",
+      adDescription: "",
+      adImages: [],
+      mainCategory: "",
+      subCategory: "",
+      category: "",
+      adType: "",
+      adNumber: "",
+      adPrice: "",
+      adLocation: "",
+      admin: user.user,
+    });
 
     useEffect(() => {
         fetch(`http://localhost:5000/users/${u_id}`)
@@ -42,6 +55,49 @@ const MyAds = () => {
             .then(data => console.log(data));
     }
 
+    const postAd = async (e) => {
+      e.preventDefault();
+  
+      try {
+        if (formData === {}) {
+          return window.alert('Please enter informations')
+        }
+  
+        if ((formData.adLocation === '' || formData.adPrice === '') || formData.adNumber === '') {
+          return window.alert('Please enter other informations')
+        }
+  
+        if ((formData.mainCategory === '' || formData.category === '') || formData.subCategory === '') {
+          return window.alert('Please enter category details')
+        }
+  
+        console.log(formData, 'when submit btn is clicked')
+  
+        if (FormData.adImages !== []) {
+          await fetch('http://localhost:5000/ads', {
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+          })
+            .then(res => res.json())
+            .then(data => {
+              if (data && formData.adImages.length > 0) {
+                setFormData({})
+                return window.alert('Now you may reload this page and open modal to post another ad!')
+              }
+              else { return window.alert('Please enter all informations') }
+            })
+        }
+        else{console.log('cound not process')}
+      }
+  
+      catch (err) {
+        console.log(err);
+      }
+    }
+
     const adSec = [
         {
             id: 0,
@@ -64,7 +120,11 @@ const MyAds = () => {
                     price: 1960,
                     time: '1 Month'
                 },
-            ]
+            ],
+            modal: {
+                des: 'The Top Ad sends your ad to the top of the Locanto search results and gives it the “Top” label for a selected amount of time.',
+                img: modal1
+            },
         },
         {
             id: 1,
@@ -97,6 +157,10 @@ const MyAds = () => {
             icon: 'fa-solid fa-gem',
             new: false,
             color: 'violet-400',
+            modal: {
+                des: 'The Gallery Ad puts your ad in two places at once, both in a gallery next to the search results and in the search results themselves.',
+                img: modal2
+            },
             pricing: [
                 {
                     price: 260,
@@ -120,6 +184,10 @@ const MyAds = () => {
             icon: 'fa-solid fa-bell',
             new: true,
             color: 'blue-700',
+            modal: {
+                des: 'Premium ads are not only marked with the “Premium” label and highlighted in users’ search results, but are also rid of any third-party advertisements or references to other Locanto ads.',
+                img: modal3
+            },
             pricing: []
         },
     ];
@@ -144,8 +212,7 @@ const MyAds = () => {
             <div className="flex gap-5 w-full">
                 <div className='w-3/5 flex gap-2'>
                     <input className='w-full h-12 input input-bordered' placeholder='Location' type="text" /> <span className='location-icon absolute top-4 right-3'><i class="fa-solid fa-location-crosshairs"></i></span>
-                    <button className='btn bg-blue-800 border-none'>Search
-                        <i className="fa-solid fa-gem"></i></button>
+                    <button className='btn bg-blue-800 border-none'>Search</button>
                 </div>
                 <select name="" id="" className='input input-bordered w-2/5'>
                     <option value={user?.email}>{user?.email}</option>
@@ -320,7 +387,7 @@ const MyAds = () => {
                                                                 {sec?.pricing?.length > 0 &&
                                                                     <select
                                                                         className="select select-bordered w-fit max-w-xs"
-                                                                        // onClick={(e) => setClickedTime({ value: e?.target?.value, index: adSec?.indexOf(sec) })}
+                                                                    // onClick={(e) => setClickedTime({ value: e?.target?.value, index: adSec?.indexOf(sec) })}
                                                                     >
                                                                         {sec?.pricing?.map(p => { return <option>{p?.time}</option> })}
                                                                     </select>}
@@ -328,7 +395,7 @@ const MyAds = () => {
                                                         </div>
 
                                                         {/* modal */}
-                                                        {sec?.modal && <>
+                                                        {/* {sec?.modal && <div className=''>
                                                             <input type="checkbox" id={`adsec-modal-${sec?.title}`} className="modal-toggle" />
                                                             <div className="modal">
                                                                 <div className="modal-box relative p-0">
@@ -341,8 +408,8 @@ const MyAds = () => {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </>
-                                                        }
+                                                        </div>
+                                                        } */}
 
                                                         <p>{sec?.des}</p>
                                                     </div>
